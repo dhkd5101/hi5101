@@ -1,18 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC
-    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
-    "http://struts.apache.org/dtds/struts-2.0.dtd">
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<package name="file" extends="struts-default">
-		<action name="fileUploadForm" class="file.fileUploadAction">
-			<result>/upload/fileUpload.jsp</result>
-		</action>
 
-		<action name="fileUploadAction" class="file.fileUploadAction"
-			method="upload">
-			<result name="input">/upload/fileUpload.jsp</result>
-			<result>/upload/fileUploadOK.jsp</result>
+<!-- 용량제한 100MB 로 설정. -->
+<constant name="struts.multipart.maxSize" value="104857600"/>
+<package name="board" extends="struts-default">
+		
+		<!-- 
+		글로벌 예외 처리 화면 설정
+		<global-results>
+			<result name="error">/board/pageError.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"/>
+		</global-exception-mappings> -->
+		
+		<!-- 게시판 리스트 액션. -->
+		
+		<action name="listAction" class="board.listAction">
+			<result>/board/boardList.jsp</result>
 		</action>
-	</package>
+		
+		
+
+</package>
+
 </struts>
