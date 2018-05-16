@@ -1,5 +1,6 @@
 package board;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
@@ -22,6 +23,12 @@ public class viewAction extends ActionSupport{
 	
 	private InputStream inputStream;
 	private String contentDisposition;
+	private long contentLength;
+	
+	//»ý¼ºÀÚ
+	public viewAction()throws IOException{
+		
+	}
 	
 
 }
