@@ -16,7 +16,7 @@
 
 	<!-- select 절 정의 -->
 	<sql id="select-all">
-		SELECT * FORM SBOARD_5101
+		SELECT * FROM SBOARD_5101
 	</sql>
 
 	<sql id="where-no">
