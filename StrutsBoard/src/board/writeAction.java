@@ -37,11 +37,11 @@ public class writeAction extends ActionSupport {
 	private String uploadFileName;
 	private String fileUploadPath = "C:/java/upload/";
 
-	// 생성자
+	// �깮�꽦�옄
 	public writeAction() throws IOException {
 
-		reader = Resources.getResourceAsReader("sqlMapConfig.xml"); // sqlMapConfig.xml 파일의 설정내용을 가져온다.
-		sqlMapper = SqlMapClientBuilder.buildSqlMapClient(reader); // sqlMapConfig.xml의 내용을 적용한 sqlMapper 객체 생성.
+		reader = Resources.getResourceAsReader("sqlMapConfig.xml"); // sqlMapConfig.xml �뙆�씪�쓽 �꽕�젙�궡�슜�쓣 媛��졇�삩�떎.
+		sqlMapper = SqlMapClientBuilder.buildSqlMapClient(reader); // sqlMapConfig.xml�쓽 �궡�슜�쓣 �쟻�슜�븳 sqlMapper 媛앹껜 �깮�꽦.
 		reader.close();
 	}
 
@@ -49,44 +49,44 @@ public class writeAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-	// 게시판 WRITE 액션
+	// 寃뚯떆�뙋 WRITE �븸�뀡
 	public String execute() throws Exception {
 
-		// 파라미터와 리절트 객체 생성.
+		// �뙆�씪誘명꽣�� 由ъ젅�듃 媛앹껜 �깮�꽦.
 		paramClass = new boardVO();
 		resultClass = new boardVO();
 
-		// 등록할 항목 설정.
+		// �벑濡앺븷 �빆紐� �꽕�젙.
 		paramClass.setSubject(getSubject());
 		paramClass.setName(getName());
 		paramClass.setPassword(getPassword());
 		paramClass.setContent(getContent());
 		paramClass.setRegdate(today.getTime());
 
-		// 등록 쿼리 수행.
+		// �벑濡� 荑쇰━ �닔�뻾.
 		sqlMapper.insert("insertBoard", paramClass);
 
-		// 첨부파일을 선택했다면 파일을 업로드한다.
+		// 泥⑤��뙆�씪�쓣 �꽑�깮�뻽�떎硫� �뙆�씪�쓣 �뾽濡쒕뱶�븳�떎.
 		if (getUpload() != null) {
 
-			// 등록한 글 번호 가져오기.
+			// �벑濡앺븳 湲� 踰덊샇 媛��졇�삤湲�.
 			resultClass = (boardVO) sqlMapper.queryForObject("selectLastNo");
 
-			// 실제 서버에 저장될 파일 이름과 확장자 설정.
+			// �떎�젣 �꽌踰꾩뿉 ���옣�맆 �뙆�씪 �씠由꾧낵 �솗�옣�옄 �꽕�젙.
 			String file_name = "file_" + resultClass.getNo();
 			String file_ext = getUploadFileName().substring(getUploadFileName().lastIndexOf('.') + 1,
 					getUploadFileName().length());
 
-			// 서버에 파일 저장.
+			// �꽌踰꾩뿉 �뙆�씪 ���옣.
 			File destFile = new File(fileUploadPath + file_name + "." + file_ext);
 			FileUtils.copyFile(getUpload(), destFile);
 
-			// 파일 정보 파라미터 설정.
+			// �뙆�씪 �젙蹂� �뙆�씪誘명꽣 �꽕�젙.
 			paramClass.setNo(resultClass.getNo());
-			paramClass.setFile_orgname(getUploadFileName()); // 원래 파일 이름
-			paramClass.setFile_savname(file_name + "." + file_ext); // 서버에 저장한 파일 이름
+			paramClass.setFile_orgname(getUploadFileName()); // �썝�옒 �뙆�씪 �씠由�
+			paramClass.setFile_savname(file_name + "." + file_ext); // �꽌踰꾩뿉 ���옣�븳 �뙆�씪 �씠由�
 
-			// 파일 정보 업데이트.
+			// �뙆�씪 �젙蹂� �뾽�뜲�씠�듃.
 			sqlMapper.update("updateFile", paramClass);
 		}
 

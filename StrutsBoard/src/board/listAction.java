@@ -12,42 +12,36 @@ import com.ibatis.sqlmap.client.SqlMapClientBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class listAction extends ActionSupport {
-	public static Reader reader; // ÆÄÀÏ ½ºÆ®¸²À» À§ÇÑ reader.
-	public static SqlMapClient sqlMapper; // SqlMapClient API¸¦ »ç¿ëÇÏ±â À§ÇÑ sqlMapper °´Ã¼.
+	public static Reader reader; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ reader.
+	public static SqlMapClient sqlMapper; // SqlMapClient APIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ sqlMapper ï¿½ï¿½Ã¼.
 
 	private List<boardVO> list = new ArrayList<boardVO>();
 
-	private int currentPage = 1; // ÇöÀç ÆäÀÌÁö
-	private int totalCount; // ÃÑ °Ô½Ã¹°ÀÇ ¼ö
-	private int blockCount = 10; // ÇÑ ÆäÀÌÁöÀÇ °Ô½Ã¹°ÀÇ ¼ö
-	private int blockPage = 5; // ÇÑ È­¸é¿¡ º¸¿©ÁÙ ÆäÀÌÁö ¼ö
-	private String pagingHtml; // ÆäÀÌÂ¡À» ±¸ÇöÇÑ HTML
-	private pagingAction page; // ÆäÀÌÂ¡ Å¬·¡½º
+	private int currentPage = 1; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int totalCount; // ï¿½ï¿½ ï¿½Ô½Ã¹ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private int blockCount = 10; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã¹ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private int blockPage = 5; // ï¿½ï¿½ È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private String pagingHtml; // ï¿½ï¿½ï¿½ï¿½Â¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ HTML
+	private pagingAction page; // ï¿½ï¿½ï¿½ï¿½Â¡ Å¬ï¿½ï¿½ï¿½ï¿½
 
 	public listAction() throws IOException {
 
-		reader = Resources.getResourceAsReader("sqlMapConfig.xml"); // sqlMapConfig.xml ÆÄÀÏÀÇ ¼³Á¤³»¿ëÀ» °¡Á®¿Â´Ù.
-		sqlMapper = SqlMapClientBuilder.buildSqlMapClient(reader); // sqlMapConfig.xmlÀÇ ³»¿ëÀ» Àû¿ëÇÑ sqlMapper °´Ã¼ »ı¼º.
+		reader = Resources.getResourceAsReader("sqlMapConfig.xml"); // sqlMapConfig.xml ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
+		sqlMapper = SqlMapClientBuilder.buildSqlMapClient(reader); // sqlMapConfig.xmlï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sqlMapper ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½.
 		reader.close();
 	}
 
 	public String execute() throws Exception {
-		// ¸ğµç ±ÛÀ» °¡Á®¿Í list¿¡ ³Ö´Â´Ù.
 		list = sqlMapper.queryForList("selectAll");
 
-		totalCount = list.size(); // ÀüÃ¼ ±Û °¹¼ö¸¦ ±¸ÇÑ´Ù.
+		totalCount = list.size(); // ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 		page = new pagingAction(currentPage, totalCount, blockCount, blockPage);
-		// ÆäÀÌÁö HTML »ı¼º.
 		pagingHtml = page.getPagingHtml().toString();
-		// ÇöÀç ÆäÀÌÁö¿¡¼­ º¸¿©ÁÙ ¸¶Áö¸· ±ÛÀÇ ¹øÈ£ ¼³Á¤.
 		int lastCount = totalCount;
-		// ÇöÀç ÆäÀÌÁöÀÇ ¸¶Áö¸· ±ÛÀÇ ¹øÈ£°¡ ÀüÃ¼ÀÇ ¸¶Áö¸· ±Û ¹øÈ£º¸´Ù ÀÛÀ¸¸é
-		// lastCount¸¦ +1 ¹øÈ£·Î ¼³Á¤.
 
 		if (page.getEndCount() < totalCount)
 			lastCount = page.getEndCount() + 1;
 
-		// ÀüÃ¼ ¸®½ºÆ®¿¡¼­ ÇöÀç ÆäÀÌÁö¸¸Å­ÀÇ ¸®½ºÆ®¸¸ °¡Á®¿Â´Ù.
 		list = list.subList(page.getStartCount(), lastCount);
 
 		return SUCCESS;
