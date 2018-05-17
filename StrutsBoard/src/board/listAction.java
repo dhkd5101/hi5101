@@ -36,7 +36,8 @@ public class listAction extends ActionSupport {
 
 	public String execute() throws Exception {
 		
-		if(getSearchKeyword() != null) {
+		if(getSearchKeyword() != null) 
+		{
 			return search();
 		}
 		list = sqlMapper.queryForList("selectAll");
@@ -62,13 +63,13 @@ public class listAction extends ActionSupport {
 		// searchKeyword = new String(searchKeyword.getBytes("iso-8859-1"),"euc-kr") ;
 		// System.out.println(searchKeyword);
 		// System.out.println(searchNum);
-		if (searchNum == 0) {
+		if(searchNum == 0){
 			list = sqlMapper.queryForList("selectSearchW", "%" + getSearchKeyword() + "%");
 		}
-		if (searchNum == 1) {
+		if(searchNum == 1){
 			list = sqlMapper.queryForList("selectSearchS", "%" + getSearchKeyword() + "%");
 		}
-		if (searchNum == 2) {
+		if(searchNum == 2){
 			list = sqlMapper.queryForList("selectSearchC", "%" + getSearchKeyword() + "%");
 		}
 
