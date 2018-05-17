@@ -77,6 +77,20 @@
 			<td colspan="5"><input type="button" value="글쓰기" class="inputb"
 				onClick="javascript:location.href='writeForm.action?currentPage=<s:property value="currentPage" />';"></td>
 		</tr>
+		<tr align="center">
+			<td colspan="5">
+				<form>
+					<select name="searchNum">
+						<option value="0">작성자</option>
+						<option value="1">제목</option>
+						<option value="2">내용</option>
+					</select>
+					<s:textfield name="searchKeyword" theme="simple" value=""
+						cssStyle="width:120px" maxlength="20" />
+					<input name="submit" type="submit" value="검색" class="inputb">
+				</form>
+			</td>
+		</tr>
 	</table>
 </body>
 </html>

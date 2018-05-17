@@ -18,6 +18,8 @@
 	<sql id="select-all">
 		SELECT * FROM SBOARD_5101
 	</sql>
+	
+	<sql id="select-com">SELECT * FROM BOARDC_5101</sql>
 
 	<sql id="where-no">
 		WHERE no =#no#
@@ -33,7 +35,23 @@
 		<include refid="where-no" />
 	</select>
 
-	<select id="selectLastNo" resultClass="board">
+
+
+	<select id="selectSearchW" parameterClass="string" resultMap="boardRes">
+		<include refid="select-all" />
+		WHERE name list #searchKeyword# ORDER BY DESC
+	</select>
+
+	<select id="selectSearchS" parameterClass="string" resultMap="boardRes">
+		<include refid="select-all" />
+		WHERE subject list #searchKeyword# ORDER BY DESC
+	</select>
+
+	<select id="selectSearchC" parameterClass="string" resultMap="boardRes">
+		<include refid="select-all" />
+		WHERE content list #searchKeyword# ORDER BY DESC
+	</select>
+	<select id="selectLastNo" parameterClass="int" resultClass="board">
 		SELECT max(no) as no FROM
 		SBOARD_5101
 	</select>
@@ -43,52 +61,58 @@
 		<include refid="where-no" />
 		AND password = #password#
 	</select>
+	
+<!-- 	<select id="selectPassword2" resultMap="commentRes">
+		<include refid="select-com"/>
+		<include refid="where-no"/>
+		AND password = #password#
+	</select> -->
 
-<!-- insert 쿼리문 정의 -->
-		<insert id="insertBoard" parameterClass="board">
-		
-      		INSERT INTO SBOARD_5101 (NO,
-      					SUBJECT,
-                         		NAME,
-                         		PASSWORD,
-                         		CONTENT,
-                         		REGDATE
-                         )
-                VALUES (SBOARD_NO_SEQ_5101.NEXTVAL,
-                	 	#subject#,
-                         	#name#,
-                         	#password#,
-                         	#content#,
-                         	#regdate#
-                         )
-		</insert>
-		
-		
-		<!-- update 쿼리문 정의 -->
-		<update id="updateBoard" parameterClass="board">
-    		UPDATE SBOARD_5101 SET SUBJECT = #subject#,
-                     		     NAME = #name#,
-                       		     PASSWORD = #password#,
-                       		     CONTENT = #content#
+	<!-- insert 쿼리문 정의 -->
+	<insert id="insertBoard" parameterClass="board">
+
+		INSERT INTO SBOARD_5101 (NO,
+		SUBJECT,
+		NAME,
+		PASSWORD,
+		CONTENT,
+		REGDATE
+		)
+		VALUES (SBOARD_NO_SEQ_5101.NEXTVAL,
+		#subject#,
+		#name#,
+		#password#,
+		#content#,
+		#regdate#
+		)
+	</insert>
+
+
+	<!-- update 쿼리문 정의 -->
+	<update id="updateBoard" parameterClass="board">
+		UPDATE SBOARD_5101 SET SUBJECT = #subject#,
+		NAME = #name#,
+		PASSWORD = #password#,
+		CONTENT = #content#
 		<include refid="where-no" />
-   		</update>
-    
-    		<update id="updateFile" parameterClass="board">
-    			UPDATE SBOARD_5101 SET FILE_ORGNAME = #file_orgname#
-    		    		,FILE_SAVNAME = #file_savname#
-			<include refid="where-no" />
-   		 </update>
-    
-    		<update id="updateReadHit" parameterClass="board">
-    			UPDATE SBOARD_5101 SET READHIT = readHit + 1
-			<include refid="where-no" />
-   		 </update>
-    
+	</update>
 
-		<!-- delete 쿼리문 정의 -->
-  		  <delete id="deleteBoard" parameterClass="board">
-			DELETE FROM SBOARD_5101 
-			<include refid="where-no" />
-   		 </delete>
+	<update id="updateFile" parameterClass="board">
+		UPDATE SBOARD_5101 SET FILE_ORGNAME = #file_orgname#
+		,FILE_SAVNAME = #file_savname#
+		<include refid="where-no" />
+	</update>
+
+	<update id="updateReadHit" parameterClass="board">
+		UPDATE SBOARD_5101 SET READHIT = readHit + 1
+		<include refid="where-no" />
+	</update>
+
+
+	<!-- delete 쿼리문 정의 -->
+	<delete id="deleteBoard" parameterClass="board">
+		DELETE FROM SBOARD_5101
+		<include refid="where-no" />
+	</delete>
 
 </sqlMap>

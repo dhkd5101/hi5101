@@ -14,7 +14,7 @@ public class pagingAction {
 	private StringBuffer pagingHtml;
 
 	// 페이징 생성자
-	public pagingAction(int currentPage, int totalCount, int blockCount, int blockPage) {
+	public pagingAction(int currentPage, int totalCount, int blockCount, int blockPage, int searchNum, String isSearch) {
 
 		this.blockCount = blockCount;
 		this.blockPage = blockPage;
@@ -48,6 +48,10 @@ public class pagingAction {
 		// 이전 block 페이지
 		pagingHtml = new StringBuffer();
 		if (currentPage > blockPage) {
+			if(isSearch != "")
+				pagingHtml.append("<a href=listAction.action?currentPage=" + (startPage - 1) + "&searchKeyword="+isSearch+"&searchNum="+searchNum+">");
+			
+			else
 			pagingHtml.append("<a href=listAction.action?currentPage=" + (startPage - 1) + ">");
 			pagingHtml.append("이전");
 			pagingHtml.append("</a>");
@@ -67,6 +71,8 @@ public class pagingAction {
 			} else {
 				pagingHtml.append("&nbsp;<a href='listAction.action?currentPage=");
 				pagingHtml.append(i);
+				if(isSearch != "")
+					pagingHtml.append("&searchKeyword = "+isSearch);
 				pagingHtml.append("'>");
 				pagingHtml.append(i);
 				pagingHtml.append("</a>");
@@ -80,6 +86,8 @@ public class pagingAction {
 		// 다음 block 페이지
 		if (totalPage - startPage >= blockPage) {
 			pagingHtml.append("<a href=listAction.action?currentPage=" + (endPage + 1) + ">");
+			if(isSearch != "")
+				pagingHtml.append("&searchKeyword =" + isSearch);
 			pagingHtml.append("다음");
 			pagingHtml.append("</a>");
 		}

@@ -122,7 +122,11 @@
 					<s:param name="no">
 						<s:property value="no" />
 					</s:param>
-				</s:url> <input name="list" type="button" value="수정" class="inputb"
+				</s:url> 
+				<input name="list" type="button" value="답변달기" class="inputb"
+						onClick="javascript:location.href='reply.action?currentPage=<s:property value="currentPage" />'"></td>
+				
+				<input name="list" type="button" value="수정" class="inputb"
 				onClick="javascript:open_win_noresizable('checkForm.action?no=<s:property value="resultClass.no" />&currentPage=<s:property value="currentPage" />','modify')">
 
 					<input name="list" type="button" value="삭제" class="inputb"
